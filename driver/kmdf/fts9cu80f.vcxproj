@@ -113,23 +113,23 @@
   </ImportGroup>
   <ItemGroup Label="WrappedTaskItems" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>fts1ba90a</TargetName>
+    <TargetName>fts9cu80f</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>fts1ba90a</TargetName>
+    <TargetName>fts9cu80f</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>fts1ba90a</TargetName>
+    <TargetName>fts9cu80f</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <TargetName>fts1ba90a</TargetName>
+    <TargetName>fts9cu80f</TargetName>
     <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>fts1ba90a</TargetName>
+    <TargetName>fts9cu80f</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <TargetName>fts1ba90a</TargetName>
+    <TargetName>fts9cu80f</TargetName>
     <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -263,7 +263,7 @@
       <WppScanConfigurationData Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)driver\trace.h</WppScanConfigurationData>
       <WppAdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)driver;%(WppAdditionalIncludeDirectories)</WppAdditionalIncludeDirectories>
     </ClCompile>
-    <ResourceCompile Include="fts1ba90a.rc" />
+    <ResourceCompile Include="fts9cu80f.rc" />
   </ItemGroup>
   <ItemGroup>
     <Inf Exclude="@(Inf)" Include="*.inx" />
