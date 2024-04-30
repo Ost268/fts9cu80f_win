@@ -36,9 +36,9 @@ ULONG XRevert = 1;
 ULONG YRevert = 0;
 ULONG XYExchange = 0;
 ULONG XMin = 0;
-ULONG XMax = 2600;
+ULONG XMax = 2208;
 ULONG YMin = 0;
-ULONG YMax = 1600;
+ULONG YMax = 1768;
 
 
 typedef struct
