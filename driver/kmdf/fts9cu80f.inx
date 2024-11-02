@@ -40,7 +40,7 @@ AddReg=fts9cu80f_AddReg
 AddService=fts9cu80f,0,fts9cu80f_Service_Inst,
 AddService=mshidkmdf,0x00000002,mshidkmdf_Service_Inst ;flag 0x2 sets this as the service for the device
 
-[fts1ba90a_AddReg]
+[fts9cu80f_AddReg]
 HKR,,"LowerFilters",0x00010008,"fts9cu80f" ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
 HKR,,"XRevert",0x00010001,1
 HKR,,"YRevert",0x00010001,0
