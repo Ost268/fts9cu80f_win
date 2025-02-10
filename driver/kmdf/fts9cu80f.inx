@@ -19,7 +19,7 @@ Class = HIDClass
 ClassGuid ={745a17a0-74d3-11d0-b6fe-00a0c90f57da}
 Provider=%ManufacturerName%
 CatalogFile=fts9cu80f.cat
-DriverVer = 02/10/2025,22.25.53.949
+DriverVer = 02/11/2025,0.3.48.477
 PnpLockdown=1
 
 [DestinationDirs]
@@ -37,10 +37,10 @@ fts9cu80f.sys  = 99
 ;*****************************************
 
 [Manufacturer]
-%ManufacturerName%=Standard,NT$ARCH$.6.1
+%ManufacturerName%=Standard,NTARM64.6.1
 
-[Standard.NT$ARCH$.6.1]
-%fts9cu80f.DeviceDesc%=fts9cu80f_Device, ACPI\STFT180F ; TODO: edit hw-id
+[Standard.NTARM64.6.1]
+%fts9cu80f.DeviceDesc%=fts9cu80f_Device, ACPI\FTTS0001 ; TODO: edit hw-id
 
 [fts9cu80f_Device.NT]
 CopyFiles=Drivers_Dir
@@ -49,25 +49,27 @@ CopyFiles=Drivers_Dir
 fts9cu80f.sys
 
 ;
-; --------------  Install section for Win7 and later. 
+; --------------  Install section for Win10 and later. 
 ; --------------  Use the inbox mshidkmdf.sys as the shim
 ;
 [fts9cu80f_Device.NT.HW]
 AddReg =fts9cu80f_Reg_Parameters.AddReg 
 
+;-------------- Service installation
+[fts9cu80f_Device.NT.Services]
+AddService =fts9cu80f,%SPSVCINST_ASSOCSERVICE%, fts9cu80f_Service_Inst
+
+
 [fts9cu80f_Reg_Parameters.AddReg]
-HKR,,"LowerFilters",0x00010008,"l10thp" ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
+HKR,,"LowerFilters",0x00010008,"fts9cu80f" ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
 HKR,,"XRevert",0x00010001,0
 HKR,,"YRevert",0x00010001,0
 HKR,,"XYExchange",0x00010001,0
 HKR,,"XMin",0x00010001,0
-HKR,,"XMax",0x00010001,1080
+HKR,,"XMax",0x00010001,2208
 HKR,,"YMin",0x00010001,0
-HKR,,"YMax",0x00010001,2400
+HKR,,"YMax",0x00010001,1768
 
-;-------------- Service installation
-[fts9cu80f_Device.NT.Services]
-AddService =fts9cu80f,%SPSVCINST_ASSOCSERVICE%, fts9cu80f_Service_Inst
 
 ; --------------fts9cu80f driver install sections
 [fts9cu80f_Service_Inst]
@@ -78,14 +80,22 @@ ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\fts9cu80f.sys
 LoadOrderGroup = Extended Base
 
+[mshidkmdf_Service_Inst]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\mshidkmdf.sys
 
+[FingerTipl10thp.NT.Wdf]
+KmdfService=fts9cu80f, fts9cu80f_wdfsect
 
+[fts9cu80f_wdfsect]
+KmdfLibraryVersion=1.33
 
 [Strings]
 SPSVCINST_ASSOCSERVICE= 0x00000002
-ManufacturerName="Project Aloha(by Ost268)."
+ManufacturerName="Ost268."
 ;ClassName="Samples" ; TODO: edit ClassName
-DiskName = "fts9cu80f Installation Disk"
-fts9cu80f.DeviceDesc = "fts9cu80f Device"
-fts9cu80f.SVCDESC = "fts9cu80f Service"
-
+DiskName = "FingerTip9CU80F Installation Disk"
+FingerTipl10thp.DeviceDesc = "FingerTip9CU80F Device"
+FingerTipl10thp.SVCDESC = "FingerTip9CU80F Service"
