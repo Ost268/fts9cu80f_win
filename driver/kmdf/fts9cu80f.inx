@@ -15,78 +15,77 @@
 ;--*/
 [Version]
 Signature="$WINDOWS NT$"
-Class=HIDClass
-ClassGuid={745A17A0-74D3-11D0-B6FE-00A0C90F57DA}
+Class = HIDClass
+ClassGuid ={745a17a0-74d3-11d0-b6fe-00a0c90f57da}
 Provider=%ManufacturerName%
-DriverVer=01/01/2023,1.0.0.1
 CatalogFile=fts9cu80f.cat
+DriverVer = 02/10/2025,22.25.53.949
+PnpLockdown=1
 
-; ================= Device section =====================
+[DestinationDirs]
+Drivers_Dir = 12
+fts9cu80f_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+99 = %DiskName%,,,""
+
+[SourceDisksFiles]
+fts9cu80f.sys  = 99
+
+;*****************************************
+; Install Section
+;*****************************************
 
 [Manufacturer]
-%ManufacturerName%=Microsoft,NT$ARCH$
+%ManufacturerName%=Standard,NT$ARCH$.6.1
 
-; Works on Win7 and later because we use inbox HID-KMDF mapper
-[Microsoft.NT$ARCH$]
-%DeviceDesc%=fts9cu80f, ACPI\STFT180F
+[Standard.NT$ARCH$.6.1]
+%fts9cu80f.DeviceDesc%=fts9cu80f_Device, ACPI\STFT180F ; TODO: edit hw-id
 
-[fts9cu80f.NT]
-CopyFiles=KMDriverCopy
+[fts9cu80f_Device.NT]
+CopyFiles=Drivers_Dir
 
-[fts9cu80f.NT.hw]
-AddReg=fts9cu80f_AddReg
+[Drivers_Dir]
+fts9cu80f.sys
 
-[fts9cu80f.NT.Services]
-AddService=fts9cu80f,0,fts9cu80f_Service_Inst,
-AddService=mshidkmdf,0x00000002,mshidkmdf_Service_Inst ;flag 0x2 sets this as the service for the device
+;
+; --------------  Install section for Win7 and later. 
+; --------------  Use the inbox mshidkmdf.sys as the shim
+;
+[fts9cu80f_Device.NT.HW]
+AddReg =fts9cu80f_Reg_Parameters.AddReg 
 
-[fts9cu80f_AddReg]
-HKR,,"LowerFilters",0x00010008,"fts9cu80f" ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
-HKR,,"XRevert",0x00010001,1
+[fts9cu80f_Reg_Parameters.AddReg]
+HKR,,"LowerFilters",0x00010008,"l10thp" ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
+HKR,,"XRevert",0x00010001,0
 HKR,,"YRevert",0x00010001,0
 HKR,,"XYExchange",0x00010001,0
 HKR,,"XMin",0x00010001,0
-HKR,,"XMax",0x00010001,2208
+HKR,,"XMax",0x00010001,1080
 HKR,,"YMin",0x00010001,0
-HKR,,"YMax",0x00010001,1768
+HKR,,"YMax",0x00010001,2400
 
-[mshidkmdf_Service_Inst]
-ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
-StartType      = 3                  ; SERVICE_DEMAND_START
-ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
-ServiceBinary  = %12%\mshidkmdf.sys
+;-------------- Service installation
+[fts9cu80f_Device.NT.Services]
+AddService =fts9cu80f,%SPSVCINST_ASSOCSERVICE%, fts9cu80f_Service_Inst
 
+; --------------fts9cu80f driver install sections
 [fts9cu80f_Service_Inst]
-DisplayName    = %ServiceDesc%
-ServiceType    = 1
-StartType      = 3
-ErrorControl   = 1
+DisplayName    = %fts9cu80f.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\fts9cu80f.sys
+LoadOrderGroup = Extended Base
 
-[fts1ba90a.NT.Wdf]
-KmdfService=fts9cu80f, fts9cu80f_wdfsect
 
-[fts9cu80f_wdfsect]
-KmdfLibraryVersion=$KMDFVERSION$
 
-; ================= copy files =====================
-
-[KMDriverCopy]
-fts9cu80f.sys
-
-[SourceDisksNames]
-1=%DiskDesc%,,,
-
-[SourceDisksFiles]
-fts9cu80f.sys=1
-
-[DestinationDirs]
-KMDriverCopy=12
-
-;---------------------------------------------------------------;
 
 [Strings]
-ManufacturerName   = "map220v"
-DeviceDesc         = "FTS9cu80f Touchscreen Controller Device"
-ServiceDesc        = "FTS9cu80f Touchscreen Controller Service"
-DiskDesc           = "FTS9cu80f Touchscreen Controller Installation Disk"
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="Project Aloha(by Ost268)."
+;ClassName="Samples" ; TODO: edit ClassName
+DiskName = "fts9cu80f Installation Disk"
+fts9cu80f.DeviceDesc = "fts9cu80f Device"
+fts9cu80f.SVCDESC = "fts9cu80f Service"
+
